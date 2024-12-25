@@ -1,0 +1,28 @@
+# Define variables
+SRC_DIR = src
+BUILD_DIR = build
+COMPILER = gcc
+
+# Create build directory
+$(BUILD_DIR):
+    mkdir -p $(BUILD_DIR)
+
+# Source and object files
+SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
+OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC_FILES))
+
+# Default target
+all: $(BUILD_DIR) $(BUILD_DIR)/main
+    echo "Building all targets"
+
+# Compile the executable
+$(BUILD_DIR)/main: $(SRC_FILES)
+    $(COMPILER) -o $@ $^
+
+# Clean target
+clean:
+    rm -rf $(BUILD_DIR)
+
+# Run the program
+run: $(BUILD_DIR)/main
+    ./$(BUILD_DIR)/main
